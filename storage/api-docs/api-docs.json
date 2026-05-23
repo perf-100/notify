@@ -1,0 +1,327 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Notify API",
+        "description": "API отправки уведомлений",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/massnotifications": {
+            "get": {
+                "tags": [
+                    "Mass Notifications"
+                ],
+                "summary": "Get mass notifications",
+                "operationId": "c3a2db8002115633efa624dee40c13b7",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mass notifications list"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Mass Notifications"
+                ],
+                "summary": "Create mass notification",
+                "operationId": "9584fff0caf779cc596cb4f95632b1ca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "notification_type_id",
+                                    "channel",
+                                    "message",
+                                    "subscriber_ids"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Маркетинговая рассылка"
+                                    },
+                                    "idempotency_key": {
+                                        "type": "string",
+                                        "example": "mass-1"
+                                    },
+                                    "notification_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "channel": {
+                                        "type": "string",
+                                        "enum": [
+                                            "sms",
+                                            "email"
+                                        ],
+                                        "example": "email"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Скидка 10% на продукцию"
+                                    },
+                                    "subscriber_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mass Notification created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "massnotification_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/massnotifications/{massnotification}": {
+            "get": {
+                "tags": [
+                    "Mass Notifications"
+                ],
+                "summary": "Mass Notification details",
+                "operationId": "58005d28d69aa34205382be9fee7b3d7",
+                "parameters": [
+                    {
+                        "name": "massnotification",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mass Notification details"
+                    }
+                }
+            }
+        },
+        "/api/notifications": {
+            "get": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Get Notifications",
+                "operationId": "911565ad9aff9ba7eded3f189509e578",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification history"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Create notification",
+                "operationId": "91f8e779a9e46cb5cdda969e5a928a94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subscriber_id",
+                                    "notification_type_id",
+                                    "channel",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "subscriber_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "notification_type_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "channel": {
+                                        "type": "string",
+                                        "enum": [
+                                            "sms",
+                                            "email"
+                                        ],
+                                        "example": "sms"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Код подтверждения 1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Notification queued",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "notification_id": {
+                                            "type": "integer",
+                                            "example": 15
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notifications/{notification}": {
+            "get": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Get notification details",
+                "operationId": "7a36a0e2b2148b8ade53244901d98369",
+                "parameters": [
+                    {
+                        "name": "notification",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification details"
+                    }
+                }
+            }
+        },
+        "/api/subscribers": {
+            "get": {
+                "tags": [
+                    "Subscribers"
+                ],
+                "summary": "Get subscribers",
+                "operationId": "7a4ec4a0bed9cb1bb0f252aa5fde1ac4",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification history"
+                    }
+                }
+            }
+        },
+        "/api/subscribers/{subscriber}": {
+            "get": {
+                "tags": [
+                    "Subscribers"
+                ],
+                "summary": "Get subscriber details",
+                "operationId": "5959a3993681b278cb24bf2cdf29ed8c",
+                "parameters": [
+                    {
+                        "name": "subscriber",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subscriber details"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Mass Notifications",
+            "description": "Mass Notifications"
+        },
+        {
+            "name": "Notifications",
+            "description": "Notifications"
+        },
+        {
+            "name": "Subscribers",
+            "description": "Subscribers"
+        }
+    ]
+}
